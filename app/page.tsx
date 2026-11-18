@@ -10,7 +10,7 @@ export default function Home() {
     <main className="site-shell">
       <header className="topbar">
         <a className="brand" href="/" aria-label="SolMar Celeris Academy início">
-          <img className="brand-logo" src="/solmar-mark.svg" alt="Símbolo SolMar Celeris" />
+          <img className="brand-logo" src="/solmar-celeris-logo.png" alt="Símbolo SolMar Celeris" />
           <span className="brand-copy"><strong>SOLMAR CELERIS</strong><small>ACADEMY</small></span>
         </a>
         <span className="topbar-label">UNIVERSIDADE CORPORATIVA</span>
