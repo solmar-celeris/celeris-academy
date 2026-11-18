@@ -5,7 +5,7 @@
   "compatibility_date": "2026-11-17",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_zfGKuqSppiXUXtP_87bGLg_BoOD6uEQ",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_zfGKuqSppiXUXtP_87bGLg_Bo0D6uEQ",
     "NEXT_PUBLIC_SUPABASE_URL": "https://eyisufbranfunpdruyds.supabase.co"
   },
   "assets": {
