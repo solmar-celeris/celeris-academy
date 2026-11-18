@@ -1,8 +1,7 @@
 const learningAreas = [
   { number: "01", title: "Cursos e trilhas", description: "Conteúdos organizados por competências, módulos e aulas.", symbol: "↗" },
-  { number: "02", title: "Aulas ao vivo", description: "Encontros, workshops e sessões de aprendizagem em tempo real.", symbol: "◉" },
-  { number: "03", title: "Avaliações", description: "Atividades, questionários, provas e acompanhamento de resultados.", symbol: "✓" },
-  { number: "04", title: "Certificados", description: "Histórico de conquistas e certificações da jornada Celeris.", symbol: "✳" },
+  { number: "02", title: "Avaliações", description: "Atividades, questionários, provas e acompanhamento de resultados.", symbol: "✓" },
+  { number: "03", title: "Certificados", description: "Histórico de conquistas e certificações da jornada Celeris.", symbol: "✳" },
 ];
 
 export default function Home() {
@@ -14,17 +13,16 @@ export default function Home() {
           <span className="brand-copy"><strong>SOLMAR CELERIS</strong><small>ACADEMY</small></span>
         </a>
         <span className="topbar-label">UNIVERSIDADE CORPORATIVA</span>
-        <a className="access-link" href="#acesso">Acesso institucional <span>↗</span></a>
+        <a className="access-link" href="/login">Acesso institucional <span>↗</span></a>
       </header>
       <section className="hero">
         <div className="hero-copy">
           <div className="eyebrow"><span /> APRENDER · EVOLUIR · REALIZAR</div>
           <h1>Conhecimento que<br /><em>move</em> a Celeris.</h1>
           <p className="hero-description">Um espaço de desenvolvimento contínuo para compartilhar conhecimento, fortalecer competências e preparar as próximas conquistas da SolMar Celeris.</p>
-          <a className="primary-button" href="#acesso">Entrar na plataforma <span>→</span></a>
+          <a className="primary-button" href="/login">Entrar na plataforma <span>→</span></a>
           <div className="hero-footnote">AMBIENTE EXCLUSIVO PARA MEMBROS DA SOLMAR CELERIS</div>
         </div>
-
       </section>
       <section className="areas" aria-labelledby="areas-title">
         <div className="section-heading">
@@ -41,8 +39,7 @@ export default function Home() {
         </div>
       </section>
       <section className="access-panel" id="acesso">
-        <div><div className="eyebrow">PORTAL INTERNO</div><h2>Seu próximo passo começa com conhecimento.</h2><p>O acesso institucional será habilitado após a configuração do ambiente seguro da Academia.</p></div>
-        <span className="setup-status"><i /> AMBIENTE EM CONFIGURAÇÃO</span>
+        <div><div className="eyebrow">PORTAL INTERNO</div><h2>Seu próximo passo começa com conhecimento.</h2><p>Acesse sua conta institucional para acompanhar cursos, atividades e conquistas.</p><a className="primary-button" href="/login">Fazer login <span>→</span></a></div>
       </section>
       <footer className="footer"><span>© {new Date().getFullYear()} SOLMAR CELERIS</span><span>CELERIS ACADEMY · CONHECIMENTO EM MOVIMENTO</span></footer>
     </main>
