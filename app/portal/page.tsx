@@ -3,63 +3,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabase } from "../../lib/supabase";
-import type { SupabaseClient } from "@supabase/supabase-js";
 
-export default function PortalPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [checking, setChecking] = useState(true);
-  const [client, setClient] = useState<SupabaseClient | null>(null);
+type Sector={id:string;name:string;description:string};
+type Lesson={id:string;title:string;description:string;content_type:string;content:string;media_path:string|null};
+type Module={id:string;title:string;description:string;lessons:Lesson[]};
+type Course={id:string;title:string;description:string;course_modules:Module[]};
 
-  useEffect(() => {
-    let active = true;
-    let unsubscribe = () => {};
-
-    async function checkSession() {
-      const supabase = await getSupabase();
-      if (!active) return;
-      if (!supabase) {
-        router.replace("/login");
-        return;
-      }
-      setClient(supabase);
-      const { data } = await supabase.auth.getUser();
-      if (!active) return;
-      if (!data.user) router.replace("/login");
-      else {
-        setEmail(data.user.email ?? "");
-        setChecking(false);
-      }
-      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-        if (!session) router.replace("/login");
-        else setEmail(session.user.email ?? "");
-      });
-      unsubscribe = () => listener.subscription.unsubscribe();
-    }
-
-    void checkSession();
-    return () => {
-      active = false;
-      unsubscribe();
-    };
-  }, [router]);
-
-  async function signOut() {
-    await client?.auth.signOut();
-    router.replace("/");
-  }
-
-  if (checking) return <main className="auth-shell"><p className="auth-description">Verificando seu acesso...</p></main>;
-
-  return (
-    <main className="auth-shell">
-      <section className="auth-card portal-card">
-        <div className="eyebrow"><span /> ACESSO CONFIRMADO</div>
-        <h1 className="auth-title">Olá,<br /><em>bem-vindo.</em></h1>
-        <p className="auth-description">Você entrou na Celeris Academy com a conta {email}.</p>
-        <p className="portal-notice">Seu ambiente de aprendizagem está sendo preparado. Os cursos e conteúdos aparecerão aqui assim que forem publicados.</p>
-        <button className="primary-button auth-submit" onClick={signOut}>Sair da conta <span>↗</span></button>
-      </section>
-    </main>
-  );
+export default function PortalPage(){
+  const router=useRouter();const [client,setClient]=useState<any>(null);const [email,setEmail]=useState("");const [sector,setSector]=useState("");const [sectors,setSectors]=useState<Sector[]>([]);const [courses,setCourses]=useState<Course[]>([]);const [urls,setUrls]=useState<Record<string,string>>({});const [loading,setLoading]=useState(true);const [changing,setChanging]=useState(false);const [message,setMessage]=useState("");
+  async function loadTracks(sb:any,sectorId:string){const {data,error}=await sb.from("courses").select("id,title,description,course_modules(id,title,description,position,lessons(id,title,description,content_type,content,media_path))").eq("sector_id",sectorId).eq("status","published").order("created_at");if(error){setMessage(error.message);return;}const list=(data??[]) as Course[];setCourses(list);const paths=list.flatMap(c=>c.course_modules??[]).flatMap(m=>m.lessons??[]).filter(l=>l.media_path).map(l=>l.media_path as string);const signed:Record<string,string>={};for(const path of paths){const {data:d}=await sb.storage.from("academy-course-media").createSignedUrl(path,3600);if(d?.signedUrl)signed[path]=d.signedUrl;}setUrls(signed);}
+  useEffect(()=>{let live=true;(async()=>{const sb=await getSupabase();if(!sb){router.replace("/login");return;}const {data:{user}}=await sb.auth.getUser();if(!user){router.replace("/login");return;}const {data:p}=await sb.from("profiles").select("role,status,sector_id,email").eq("id",user.id).maybeSingle();if(!p||p.status!=="active"){router.replace("/login");return;}if(p.role==="admin"){router.replace("/admin");return;}const {data:s}=await sb.from("sectors").select("id,name,description").eq("active",true).order("position").order("name");if(!live)return;setClient(sb);setEmail(user.email??"");setSectors(s??[]);setSector(p.sector_id??"");if(p.sector_id)await loadTracks(sb,p.sector_id);if(live)setLoading(false);})();return()=>{live=false};},[router]);
+  async function chooseSector(id:string){setChanging(true);setMessage("");const {error}=await client.from("profiles").update({sector_id:id}).eq("id",(await client.auth.getUser()).data.user?.id);if(error){setMessage(error.message);setChanging(false);return;}setSector(id);await loadTracks(client,id);setChanging(false);}
+  async function signOut(){await client?.auth.signOut();router.replace("/");}
+  if(loading)return <main className="academy-loading">Preparando sua área de aprendizagem...</main>;
+  return <main className="academy-portal"><header className="academy-header"><a className="brand" href="/"><img className="brand-logo" src="/solmar-celeris-logo.png" alt="SolMar Celeris"/><span className="brand-copy"><strong>SOLMAR CELERIS</strong><small>ACADEMY · ALUNO</small></span></a><div className="admin-header-actions"><span className="student-email">{email}</span><button className="outline-button" onClick={signOut}>Sair</button></div></header>
+    <section className="student-welcome"><div className="eyebrow"><span/> SUA JORNADA DE DESENVOLVIMENTO</div><h1>Aprender para<br/><em>fazer acontecer.</em></h1><p>Escolha seu setor de atuação para visualizar a sequência de módulos e treinamentos preparada para você.</p></section>
+    <section className="student-content"><div className="sector-picker"><div><div className="panel-kicker">SUA ÁREA DE ATUAÇÃO</div><h2>Qual é o seu setor?</h2><p>As trilhas e os conteúdos são organizados conforme o setor escolhido.</p></div><select value={sector} disabled={changing} onChange={e=>chooseSector(e.target.value)}><option value="">Selecione seu setor</option>{sectors.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></div>
+    {message&&<p className="admin-message">{message}</p>}
+    {!sectors.length&&<div className="empty-state">Os setores ainda não foram cadastrados. Aguarde a publicação pelo tutor.</div>}
+    {sector&&<><div className="track-heading"><div><div className="panel-kicker">TRILHA DO SETOR</div><h2>{sectors.find(s=>s.id===sector)?.name}</h2></div><span>{courses.length} trilha(s)</span></div>{!courses.length?<div className="empty-state">Ainda não há módulos publicados para este setor. O tutor adicionará os conteúdos em breve.</div>:courses.map(course=><article className="student-course" key={course.id}><div className="course-heading"><div><span className="panel-kicker">TRILHA DE APRENDIZAGEM</span><h3>{course.title}</h3><p>{course.description}</p></div></div><div className="student-modules">{(course.course_modules??[]).map((m,i)=><details className="student-module" key={m.id}><summary><span className="module-number">{String(i+1).padStart(2,"0")}</span><span className="module-summary"><strong>{m.title}</strong><small>{m.description||"Abra para acessar os treinamentos"}</small></span><span className="plus-mark">+</span></summary><div className="student-lessons">{(m.lessons??[]).map(l=><div className="student-lesson" key={l.id}><div className="lesson-icon">{l.content_type==="video"?"▶":l.content_type==="resource"?"↧":"▤"}</div><div className="lesson-copy"><strong>{l.title}</strong><p>{l.description}</p>{l.content&&<p className="lesson-body">{l.content}</p>}{l.media_path&&urls[l.media_path]&&(l.content_type==="video"?<video controls preload="metadata" src={urls[l.media_path]}/>:<a className="file-link" href={urls[l.media_path]} target="_blank" rel="noreferrer">Abrir / baixar arquivo ↗</a>)}</div></div>)}</div></details>)}</div></article>)}</>}
+    </section><footer className="academy-footer">CELERIS ACADEMY · CONHECIMENTO EM MOVIMENTO</footer></main>;
 }
