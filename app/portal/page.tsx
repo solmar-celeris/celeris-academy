@@ -2,39 +2,50 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabase";
+import { getSupabase } from "../../lib/supabase";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export default function PortalPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [checking, setChecking] = useState(true);
+  const [client, setClient] = useState<SupabaseClient | null>(null);
 
   useEffect(() => {
     let active = true;
-    if (!supabase) {
-      router.replace("/login");
-      return;
-    }
-    supabase.auth.getUser().then(({ data }) => {
+    let unsubscribe = () => {};
+
+    async function checkSession() {
+      const supabase = await getSupabase();
+      if (!active) return;
+      if (!supabase) {
+        router.replace("/login");
+        return;
+      }
+      setClient(supabase);
+      const { data } = await supabase.auth.getUser();
       if (!active) return;
       if (!data.user) router.replace("/login");
       else {
         setEmail(data.user.email ?? "");
         setChecking(false);
       }
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) router.replace("/login");
-      else setEmail(session.user.email ?? "");
-    });
+      const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (!session) router.replace("/login");
+        else setEmail(session.user.email ?? "");
+      });
+      unsubscribe = () => listener.subscription.unsubscribe();
+    }
+
+    void checkSession();
     return () => {
       active = false;
-      listener.subscription.unsubscribe();
+      unsubscribe();
     };
   }, [router]);
 
   async function signOut() {
-    await supabase?.auth.signOut();
+    await client?.auth.signOut();
     router.replace("/");
   }
 

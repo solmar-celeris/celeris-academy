@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabase";
+import { getSupabase } from "../../lib/supabase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,11 +15,13 @@ export default function LoginPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage("");
+    setBusy(true);
+    const supabase = await getSupabase();
     if (!supabase) {
-      setMessage("A conexão com o Supabase não foi configurada no Worker. Confira as variáveis públicas.");
+      setBusy(false);
+      setMessage("O Worker não disponibilizou as variáveis públicas do Supabase. Confira as configurações de produção e faça um novo deploy.");
       return;
     }
-    setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setBusy(false);
     if (error) {
@@ -31,17 +33,21 @@ export default function LoginPage() {
 
   async function handleRecovery() {
     setMessage("");
-    if (!supabase) {
-      setMessage("A conexão com o Supabase não foi configurada.");
-      return;
-    }
     if (!email.trim()) {
       setMessage("Informe seu e-mail para receber o link de redefinição.");
+      return;
+    }
+    setBusy(true);
+    const supabase = await getSupabase();
+    if (!supabase) {
+      setBusy(false);
+      setMessage("O Worker não disponibilizou as variáveis públicas do Supabase. Confira as configurações de produção.");
       return;
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/login`,
     });
+    setBusy(false);
     setMessage(error ? "Não foi possível enviar o link. Verifique o e-mail informado." : "Se o e-mail estiver cadastrado, você receberá as instruções para redefinir a senha.");
   }
 
@@ -62,7 +68,7 @@ export default function LoginPage() {
           <input id="password" type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Digite sua senha" />
           <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? "Entrando..." : "Entrar na plataforma"} <span>→</span></button>
         </form>
-        <button className="text-button" type="button" onClick={handleRecovery}>Esqueci minha senha</button>
+        <button className="text-button" type="button" onClick={handleRecovery} disabled={busy}>Esqueci minha senha</button>
         {message && <p className="auth-message" role="status">{message}</p>}
         <div className="auth-divider" />
         <p className="auth-help">Ainda não tem acesso? Solicite a liberação ao administrador da Academy.</p>
