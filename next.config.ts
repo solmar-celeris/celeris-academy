@@ -22,7 +22,7 @@ function supabaseImagePatterns(): NonNullable<NonNullable<NextConfig['images']>[
 }
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  // Cloudflare Workers uses the OpenNext adapter output, not Next standalone output.
   // Version-skew protection (#679). Rolling deploys leave browsers holding the
   // previous build's JS; without an id they keep talking to the new server and
   // a Server Action id that no longer exists 500s (LMS-FRONT-82). With one, the
