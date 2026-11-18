@@ -3,17 +3,25 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Celeris Academy | Universidade Corporativa",
+    default: "Celeris Academy | SolMar Celeris",
     template: "%s | Celeris Academy",
   },
-  description: "Plataforma interna de aprendizagem e desenvolvimento da SolMar Celeris.",
+  description: "Universidade corporativa da SolMar Celeris: conhecimento, desenvolvimento e evolução contínua.",
   applicationName: "Celeris Academy",
+  icons: { icon: "/icon.svg", shortcut: "/icon.svg" },
+  openGraph: {
+    title: "Celeris Academy | SolMar Celeris",
+    description: "Conhecimento que move a SolMar Celeris.",
+    siteName: "SolMar Celeris",
+    locale: "pt_BR",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#071b2b",
+  themeColor: "#062b4c",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

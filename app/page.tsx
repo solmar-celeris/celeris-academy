@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <main className="site-shell">
       <header className="topbar">
-        <a className="brand" href="/" aria-label="Celeris Academy início">
-          <span className="brand-mark">C</span>
-          <span className="brand-copy"><strong>CELERIS</strong><small>ACADEMY</small></span>
+        <a className="brand" href="/" aria-label="SolMar Celeris Academy início">
+          <img className="brand-logo" src="/solmar-mark.svg" alt="Símbolo SolMar Celeris" />
+          <span className="brand-copy"><strong>SOLMAR CELERIS</strong><small>ACADEMY</small></span>
         </a>
         <span className="topbar-label">UNIVERSIDADE CORPORATIVA</span>
         <a className="access-link" href="#acesso">Acesso institucional <span>↗</span></a>
@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         <div className="hero-art" aria-hidden="true">
           <div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="orbit orbit-three" />
-          <div className="core"><span>C</span></div>
+          <div className="core"><img src="/solmar-mark.svg" alt="" /></div>
           <div className="art-caption"><b>01 / 04</b><span>APRENDIZAGEM CONTÍNUA</span></div>
         </div>
       </section>
