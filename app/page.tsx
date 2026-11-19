@@ -25,7 +25,6 @@ export default function Home() {
       <section className="areas" aria-labelledby="areas-title">
         <div className="section-heading">
           <div><div className="eyebrow">SUA JORNADA COMEÇA AQUI</div><h2 id="areas-title">Um universo de possibilidades.</h2></div>
-          <p>Ferramentas para transformar aprendizado em capacidade de fazer.</p>
         </div>
         <div className="area-grid">
           {learningAreas.map((area) => (
