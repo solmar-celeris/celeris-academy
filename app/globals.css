@@ -62,3 +62,6 @@
 .signup-success>strong{font-size:17px}.signup-success>p{max-width:320px;color:var(--muted);font-size:11px;line-height:1.7}
 .signup-success .primary-button{margin-top:12px}
 @media(max-width:560px){.hero-actions{align-items:stretch;flex-direction:column}.hero-actions>*{justify-content:space-between}}
+
+/* Keep the two homepage calls to action on the same baseline and height. */
+.hero-actions .primary-button,.hero-actions .secondary-button{margin-top:0;min-height:52px;box-sizing:border-box;align-items:center;}
