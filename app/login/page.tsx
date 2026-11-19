@@ -51,6 +51,7 @@ export default function LoginPage() {
       <a className="brand auth-brand" href="/"><img className="brand-logo" src="/solmar-celeris-logo.png" alt="Símbolo SolMar Celeris" /><span className="brand-copy"><strong>SOLMAR CELERIS</strong><small>ACADEMY</small></span></a>
       <section className="auth-card">
         <div className="eyebrow"><span /> ACESSO INSTITUCIONAL</div>
+        <div className="auth-tabs" aria-label="Acesso à plataforma"><span aria-current="page">Entrar</span><Link href="/cadastro">Criar conta</Link></div>
         <h1 className="auth-title">Bem-vindo<br /><em>de volta.</em></h1>
         <p className="auth-description">Entre com seu e-mail institucional e sua senha para acessar a Celeris Academy.</p>
         <form className="auth-form" onSubmit={handleSubmit}>
@@ -60,7 +61,7 @@ export default function LoginPage() {
         </form>
         <button className="text-button" type="button" onClick={handleRecovery} disabled={busy}>Esqueci minha senha</button>
         {message && <p className="auth-message" role="status">{message}</p>}
-        <div className="auth-divider" /><p className="auth-help">Ainda não tem uma conta? <Link href="/cadastro">Cadastre-se diretamente como aluno.</Link></p><Link className="back-link" href="/">← Voltar ao início</Link>
+        <div className="auth-divider" /><p className="auth-help">O cadastro é livre e cria automaticamente uma conta de aluno.</p><Link className="back-link" href="/">← Voltar ao início</Link>
       </section>
       <footer className="auth-footer">© {new Date().getFullYear()} SOLMAR CELERIS · CELERIS ACADEMY</footer>
     </main>
