@@ -246,7 +246,7 @@ export const HeroBlock: ComponentConfig<HeroBlockProps> = {
             {primaryCtaLabel && (
               <ButtonLink href={primaryCtaHref} size="lg"
                   variant={themed ? 'default' : 'secondary'}
-                  className="h-12 px-8 text-base font-semibold"
+                  className="inline-flex h-14 min-h-14 shrink-0 items-center justify-center whitespace-nowrap px-7 py-0 text-base font-semibold leading-none"
                 >
                   {primaryCtaLabel}
                 </ButtonLink>
@@ -260,7 +260,7 @@ export const HeroBlock: ComponentConfig<HeroBlockProps> = {
             {secondaryCtaLabel && (
               <ButtonLink href={secondaryCtaHref} size="lg"
                   variant="outline"
-                  className="h-12 px-8 text-base font-semibold border-[var(--block-accent-foreground,#fff)]/30 bg-[var(--block-accent-foreground,#fff)]/10 text-[var(--block-accent-foreground,#fff)] hover:bg-[var(--block-accent-foreground,#fff)]/20 hover:text-[var(--block-accent-foreground,#fff)]"
+                  className="inline-flex h-14 min-h-14 shrink-0 items-center justify-center whitespace-nowrap px-7 py-0 text-base font-semibold leading-none border-[var(--block-accent-foreground,#fff)]/30 bg-[var(--block-accent-foreground,#fff)]/10 text-[var(--block-accent-foreground,#fff)] hover:bg-[var(--block-accent-foreground,#fff)]/20 hover:text-[var(--block-accent-foreground,#fff)]"
                 >
                   {secondaryCtaLabel}
                 </ButtonLink>
