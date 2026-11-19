@@ -20,7 +20,7 @@ export default function Home() {
           <div className="eyebrow"><span /> APRENDER · EVOLUIR · REALIZAR</div>
           <h1>Conhecimento que<br /><em>move</em> a Celeris.</h1>
           <p className="hero-description">Um espaço de desenvolvimento contínuo para compartilhar conhecimento, fortalecer competências e preparar as próximas conquistas da SolMar Celeris.</p>
-          <a className="primary-button" href="/login">Entrar na plataforma <span>→</span></a>
+          <div className="hero-actions"><a className="primary-button" href="/login">Entrar na plataforma <span>→</span></a><a className="secondary-button" href="/cadastro">Criar minha conta <span>↗</span></a></div>
           <div className="hero-footnote">AMBIENTE EXCLUSIVO PARA MEMBROS DA SOLMAR CELERIS</div>
         </div>
       </section>
@@ -39,7 +39,7 @@ export default function Home() {
         </div>
       </section>
       <section className="access-panel" id="acesso">
-        <div><div className="eyebrow">PORTAL INTERNO</div><h2>Seu próximo passo começa com conhecimento.</h2><p>Acesse sua conta institucional para acompanhar cursos, atividades e conquistas.</p><a className="primary-button" href="/login">Fazer login <span>→</span></a></div>
+        <div><div className="eyebrow">PORTAL INTERNO</div><h2>Seu próximo passo começa com conhecimento.</h2><p>Acesse sua conta institucional para acompanhar cursos, atividades e conquistas.</p><div className="hero-actions"><a className="primary-button" href="/login">Fazer login <span>→</span></a><a className="secondary-button" href="/cadastro">Cadastre-se <span>↗</span></a></div></div>
       </section>
       <footer className="footer"><span>© {new Date().getFullYear()} SOLMAR CELERIS</span><span>CELERIS ACADEMY · CONHECIMENTO EM MOVIMENTO</span></footer>
     </main>
