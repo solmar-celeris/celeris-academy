@@ -15,11 +15,14 @@ export default function Home() {
         <a className="access-link" href="/login">Acesso institucional <span>↗</span></a>
       </header>
       <section className="hero">
+        <div className="hero-layout">
         <div className="hero-copy">
           <div className="eyebrow"><span /> APRENDER · EVOLUIR · REALIZAR</div>
           <h1>Navegando no<br /><em>conhecimento.</em></h1>
           <p className="hero-description">Um espaço de desenvolvimento contínuo para compartilhar conhecimento, fortalecer competências e preparar as próximas conquistas da SolMar Celeris.</p>
           <div className="hero-actions"><a className="primary-button" href="/login">Entrar na plataforma <span>→</span></a><a className="secondary-button" href="/cadastro">Criar minha conta <span>↗</span></a></div>
+        </div>
+        <div className="hero-photo"><img src="/solmar-celeris-team-hero.jpg" alt="Equipe SolMar Celeris trabalhando nos barcos durante uma atividade náutica" /></div>
         </div>
       </section>
       <section className="areas" aria-labelledby="areas-title">
