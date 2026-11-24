@@ -80,3 +80,14 @@
 .hero-actions .secondary-button{background:var(--orange);border-color:var(--orange);color:#fff}
 .hero-actions .secondary-button:hover{background:#c95710;border-color:#c95710}
 .hero-actions .secondary-button span{color:#fff}
+
+
+/* Homepage hero: copy and team photo side by side. */
+.hero{min-height:570px;display:flex;align-items:center;padding:64px 6.2%;background-image:linear-gradient(90deg,rgba(4,30,54,.98),rgba(4,30,54,.9));}
+.hero-layout{width:100%;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,.92fr);align-items:center;gap:clamp(32px,5vw,76px);}
+.hero-copy{max-width:620px;}
+.hero-photo{width:100%;height:clamp(270px,29vw,390px);overflow:hidden;border:1px solid rgba(208,230,248,.24);box-shadow:0 24px 60px rgba(0,0,0,.28);position:relative;}
+.hero-photo::after{content:"";position:absolute;inset:0;border:1px solid rgba(56,182,255,.12);pointer-events:none;}
+.hero-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
+@media(max-width:850px){.hero{padding:56px 5%;}.hero-layout{grid-template-columns:1fr;gap:30px;}.hero-copy{max-width:650px}.hero-photo{height:clamp(240px,48vw,360px);max-width:650px;}}
+@media(max-width:560px){.hero{padding:48px 5%;}.hero-layout{gap:26px}.hero-photo{height:230px;width:100%;}}
